@@ -1,176 +1,361 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>Apero Plus - Premium App Hub (Light Edition)</title>
-  
+  <title>Apero+ Internal Console</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #6366f1;
-      --primary-glow: rgba(99, 102, 241, 0.2);
-      --secondary: #ec4899;
-      --bg-main: #f8fafc;
-      --card-bg: rgba(255, 255, 255, 0.85);
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --glass-border: rgba(0, 0, 0, 0.08);
-      --glass-shine: rgba(255, 255, 255, 0.5);
+      --bg-dark: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-hover: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #10b981; /* Emerald */
+      --accent-hover: #059669;
+      --border-color: #334155;
+      --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
+    body { 
+      font-family: var(--font-ui); 
+      background-color: var(--bg-dark); 
+      color: var(--text-main); 
+      min-height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+    }
 
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--bg-main);
+    /* Minimalist header */
+    header { 
+      padding: 40px 20px; 
+      text-align: center; 
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(15, 23, 42, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 { 
+      font-family: var(--font-code);
+      font-size: 1.5rem; 
+      font-weight: 700; 
+      letter-spacing: -0.02em; 
       color: var(--text-main);
-      min-height: 100vh;
+    }
+    header h1 span { color: var(--accent); }
+
+    /* Compact Search */
+    .search-section { 
+      max-width: 800px; 
+      margin: 30px auto 20px; 
+      padding: 0 20px; 
+      width: 100%;
+    }
+    .search-wrapper { 
+      position: relative; 
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: var(--bg-surface);
+      transition: border-color 0.2s;
+    }
+    .search-wrapper:focus-within {
+      border-color: var(--accent);
+    }
+    .search-wrapper input { 
+      width: 100%; 
+      background: transparent; 
+      border: none; 
+      padding: 16px 20px 16px 50px; 
+      color: var(--text-main); 
+      font-size: 0.95rem; 
+      outline: none; 
+      font-family: var(--font-ui);
+    }
+    .search-wrapper::before { 
+      content: '>'; 
+      position: absolute; 
+      left: 20px; 
+      top: 50%; 
+      transform: translateY(-50%); 
+      font-size: 1.2rem; 
+      color: var(--accent);
+      font-family: var(--font-code);
+      font-weight: 700;
+    }
+
+    main { 
+      flex: 1; 
+      width: 100%; 
+      max-width: 1000px; 
+      margin: 0 auto; 
+      padding: 10px 20px 80px; 
+    }
+    
+    /* List View Structure */
+    #appContainer { 
+      display: flex; 
+      flex-direction: column; 
+    }
+    
+    .list-header {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: 20px;
+      padding: 12px 24px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid var(--border-color);
+      margin-bottom: 8px;
+    }
+
+    .app-row { 
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: 20px;
+      align-items: center;
+      background: var(--bg-surface); 
+      border: 1px solid var(--border-color); 
+      border-radius: 8px; 
+      padding: 16px 24px; 
+      margin-bottom: 12px;
+      transition: all 0.2s;
+    }
+    .app-row:hover { 
+      background: var(--bg-hover); 
+      border-color: #475569;
+      transform: translateX(4px);
+    }
+
+    .app-icon { 
+      width: 50px; 
+      height: 50px; 
+      border-radius: 12px; 
+      object-fit: cover; 
+      background: #334155;
+    }
+
+    .app-info {
       display: flex;
       flex-direction: column;
-      line-height: 1.6;
+      gap: 4px;
+    }
+    
+    .app-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .bg-animation {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-      background: var(--bg-main); overflow: hidden;
+    .app-title { 
+      font-size: 1.1rem; 
+      font-weight: 600; 
+      color: var(--text-main); 
+    }
+    
+    .badge { 
+      font-size: 0.7rem; 
+      font-weight: 700; 
+      padding: 4px 8px; 
+      border-radius: 4px; 
+      text-transform: uppercase; 
+      font-family: var(--font-code);
+      background: #334155;
+      color: #cbd5e1;
+      border: 1px solid #475569;
     }
 
-    .blob {
-      position: absolute; width: 800px; height: 800px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: drift 30s infinite alternate ease-in-out;
+    .app-desc { 
+      font-size: 0.85rem; 
+      color: var(--text-muted); 
+      font-weight: 400; 
     }
 
-    .blob-2 {
-      background: radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, transparent 70%);
-      width: 600px; height: 600px; right: -5%; top: 5%;
-      animation-duration: 25s; animation-delay: -5s;
+    .action-group { 
+      display: flex; 
+      gap: 10px; 
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
-    @keyframes drift {
-      from { transform: translate(-5%, -5%) scale(1); }
-      to { transform: translate(15%, 20%) scale(1.1); }
+    .btn { 
+      padding: 10px 16px; 
+      border-radius: 6px; 
+      font-weight: 500; 
+      font-size: 0.85rem; 
+      text-decoration: none; 
+      text-align: center; 
+      transition: 0.2s; 
+      white-space: nowrap;
+      font-family: var(--font-code);
+    }
+    
+    .btn-dev { 
+      background: transparent; 
+      color: #fbbf24; /* Amber */
+      border: 1px dashed #b45309; 
+    }
+    .btn-dev:hover { background: rgba(251, 191, 36, 0.1); border-style: solid; }
+    
+    .btn-live { 
+      background: var(--accent); 
+      color: #fff; 
+      border: 1px solid var(--accent);
+    }
+    .btn-live:hover { background: var(--accent-hover); }
+
+    .btn-full { 
+      background: #334155; 
+      color: var(--text-main); 
+      border: 1px solid #475569; 
+    }
+    .btn-full:hover { background: #475569; }
+
+    footer { 
+      padding: 40px 20px; 
+      text-align: center; 
+      color: var(--text-muted); 
+      font-size: 0.85rem; 
+      border-top: 1px solid var(--border-color); 
+      font-family: var(--font-code);
     }
 
-    header { padding: 80px 20px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
-
-    header h1 {
-      font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; letter-spacing: -0.04em;
-      margin-bottom: 12px; color: var(--text-main);
-      background: linear-gradient(135deg, var(--text-main) 40%, var(--primary));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    .empty-state {
+      text-align: center;
+      padding: 60px;
+      color: var(--text-muted);
+      font-family: var(--font-code);
+      border: 1px dashed var(--border-color);
+      border-radius: 8px;
     }
 
-    header p { color: var(--text-muted); font-size: 1.15rem; font-weight: 600; }
-
-    main { flex: 1; width: 100%; max-width: 1280px; margin: 0 auto; padding: 40px 20px 80px; }
-
-    .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-
-    .app-card {
-      background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border); border-radius: 32px; padding: 32px;
-      display: flex; flex-direction: column; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    @media (max-width: 768px) { 
+      .list-header { display: none; }
+      .app-row { 
+        grid-template-columns: 1fr;
+        gap: 16px;
+        position: relative;
+        padding-left: 80px;
+      }
+      .app-icon {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+      }
+      .action-group { justify-content: flex-start; }
     }
-
-    .app-card:hover {
-      transform: translateY(-10px); background: #ffffff;
-      border-color: var(--primary); box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.1), 0 0 20px var(--primary-glow);
-    }
-
-    .app-icon-box {
-      width: 90px; height: 90px; margin: 0 auto 24px; border-radius: 22px;
-      padding: 6px; background: #f8fafc; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    .app-icon { width: 100%; height: 100%; border-radius: 18px; object-fit: cover; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); }
-
-    .badge-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
-
-    .badge { font-size: 0.75rem; font-weight: 800; padding: 6px 14px; border-radius: 12px; text-transform: uppercase; }
-
-    .badge.android { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
-    .badge.ios { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
-
-    .app-title { font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 10px; color: var(--text-main); }
-
-    .app-desc { font-size: 0.95rem; color: var(--text-muted); text-align: center; margin-bottom: 28px; flex-grow: 1; font-weight: 500; }
-
-    .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-    .btn {
-      padding: 15px 12px; border-radius: 18px; font-weight: 700; font-size: 0.85rem;
-      text-decoration: none; text-align: center; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-    }
-
-    .btn:active { transform: scale(0.95); }
-
-    .btn-dev { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
-    .btn-dev:hover { background: #fbbf24; color: #fff; box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3); }
-
-    .btn-live { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
-    .btn-live:hover { background: #22c55e; color: #fff; box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3); }
-
-    .btn-full { grid-column: span 2; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
-    .btn-full:hover { background: var(--primary); color: #fff; }
-
-    footer { padding: 60px 20px; text-align: center; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--glass-border); }
-
-    .app-card { opacity: 0; transform: translateY(30px); animation: reveal 0.6s forwards; }
-    @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
-  <div class="bg-animation"><div class="blob"></div><div class="blob blob-2"></div></div>
-  <header><h1>Apero Plus</h1></header>
-  <main><div class="container" id="appContainer"></div></main>
-  <footer><p>&copy; 2026 Apero Plus. All rights reserved.</p></footer>
+  <header>
+    <h1>apero_plus <span>~/$</span></h1>
+  </header>
+
+  <section class="search-section">
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" placeholder="grep search_apps..." oninput="filterApps()">
+    </div>
+  </section>
+
+  <main>
+    <div class="list-header" id="listHeader">
+      <div>ICON</div>
+      <div>APPLICATION IDENTITY</div>
+      <div style="text-align: right;">ACTIONS</div>
+    </div>
+    <div id="appContainer"></div>
+  </main>
+
+  <footer>
+    <p>Apero+ Internal Registry // 0x2026</p>
+  </footer>
 
   <script>
+    let allApps = [];
+    
+    // Check for '?dev' in URL
+    const urlParams = new URL(window.location.href).searchParams;
+    const showDevBuilds = urlParams.has('dev');
+
     const formatUrl = (url, isIOS) => {
       if (!url) return "";
       if (isIOS) return "itms-services://?action=download-manifest&url=" + encodeURIComponent(url);
       return url;
     };
 
+    const renderApps = (apps) => {
+      const container = document.getElementById("appContainer");
+      const header = document.getElementById("listHeader");
+      container.innerHTML = "";
+      
+      if (apps.length === 0) { 
+        header.style.display = 'none';
+        container.innerHTML = '<div class="empty-state">[!] No applications matching current query.</div>'; 
+        return; 
+      }
+      
+      header.style.display = window.innerWidth > 768 ? 'grid' : 'none';
+
+      apps.forEach((app) => {
+        const isIOS = (app.platform || "").toLowerCase().includes("ios");
+        const devUrl = formatUrl(app.downloads?.dev, isIOS);
+        const prodUrl = formatUrl(app.downloads?.prod, isIOS);
+        const aabUrl = app.downloads?.aab || "";
+
+        const row = document.createElement("article");
+        row.className = "app-row";
+        
+        row.innerHTML = `
+          <img src="${app.icon || 'https://via.placeholder.com/150'}" class="app-icon" alt="${app.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(app.name)}&background=334155&color=fff'">
+          
+          <div class="app-info">
+            <div class="app-title-group">
+              <h2 class="app-title">${app.name}</h2>
+              <span class="badge">${app.platform || 'ANDROID'}</span>
+            </div>
+            ${app.description ? `<p class="app-desc">${app.description}</p>` : ''}
+          </div>
+          
+          <div class="action-group">
+            ${(devUrl && showDevBuilds) ? `<a href="${devUrl}" class="btn btn-dev">dev_build</a>` : ""}
+            ${prodUrl ? `<a href="${prodUrl}" class="btn btn-live">LIVE BUILD</a>` : ""}
+            ${aabUrl ? `<a href="${aabUrl}" class="btn btn-full">AAB</a>` : ""}
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    };
+
+    const filterApps = () => {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      renderApps(allApps.filter(app => 
+        app.name.toLowerCase().includes(query) || 
+        (app.description && app.description.toLowerCase().includes(query))
+      ));
+    };
+
     fetch("apps.json")
       .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById("appContainer");
-        data.apps.forEach((app, index) => {
-          const isIOS = (app.platform || "").toLowerCase().includes("ios");
-          const devUrl = formatUrl(app.downloads?.dev, isIOS);
-          const prodUrl = formatUrl(app.downloads?.prod, isIOS);
-          const aabUrl = app.downloads?.aab || "";
-
-          const card = document.createElement("article");
-          card.className = "app-card";
-          card.style.animationDelay = `${index * 0.1}s`;
-          card.innerHTML = `
-            <div class="app-icon-box"><img src="${app.icon || 'https://via.placeholder.com/150'}" class="app-icon" alt="${app.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(app.name)}&background=6366f1&color=fff'"></div>
-            <div class="badge-row"><span class="badge ${isIOS ? 'ios' : 'android'}">${app.platform || 'Android'}</span></div>
-            <h2 class="app-title">${app.name}</h2>
-            <p class="app-desc">${app.description || ''}</p>
-            <div class="btn-grid">
-              ${devUrl ? `<a href="${devUrl}" class="btn btn-dev">🔧 Dev Build</a>` : ""}
-              ${prodUrl ? `<a href="${prodUrl}" class="btn btn-live">🚀 Live Build</a>` : ""}
-              ${aabUrl ? `<a href="${aabUrl}" class="btn btn-full">📦 Download AAB</a>` : ""}
-            </div>
-          `;
-          container.appendChild(card);
-        });
+      .then(data => { 
+        allApps = data.apps || []; 
+        renderApps(allApps); 
+      })
+      .catch(err => { 
+        document.getElementById("listHeader").style.display = 'none';
+        document.getElementById("appContainer").innerHTML = '<div class="empty-state" style="color: #ef4444;">[ERR] Connection refused or invalid database.</div>'; 
       });
   </script>
 </body>
