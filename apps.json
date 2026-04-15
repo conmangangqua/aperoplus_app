@@ -2,7 +2,7 @@
   "apps": [
     {
       "id": "aperoplus-ios",
-      "name": "Apero Plus",
+      "name": "Mobile App",
       "icon": "https://raw.githubusercontent.com/user/hub/main/icon.png",
       "platform": "iOS",
       "description": "",
