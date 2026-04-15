@@ -5,7 +5,7 @@
       "name": "Apero Plus",
       "icon": "https://raw.githubusercontent.com/user/hub/main/icon.png",
       "platform": "iOS",
-      "description": "Trung tâm phát hành ứng dụng Apero Plus",
+      "description": "",
       "features": ["OTA Install", "Platinum UI"],
       "downloads": {
         "dev": "https://github.com/conmangangqua/aperoplus_app/releases/download/ios_dev/AppDev.plist",
