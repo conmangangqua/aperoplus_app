@@ -6,334 +6,375 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <meta http-equiv="Last-Modified" content="0" />
-  <title>Danh sách ứng dụng</title>
+  <title>Apero Plus - App Hub Premium</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.5);
+      --secondary: #a855f7;
+      --bg-dark: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-shine: rgba(255, 255, 255, 0.05);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
       min-height: 100vh;
-      padding: 20px;
-      color: #333;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.6;
     }
 
-    .header {
+    /* Mesh Gradient Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: var(--bg-dark);
+      overflow: hidden;
+    }
+
+    .blob {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: var(--primary);
+      filter: blur(120px);
+      border-radius: 50%;
+      opacity: 0.2;
+      animation: move 20s infinite alternate;
+    }
+
+    .blob-2 {
+      background: var(--secondary);
+      width: 400px;
+      height: 400px;
+      left: 60%;
+      top: 20%;
+      animation-duration: 15s;
+      animation-delay: -5s;
+    }
+
+    @keyframes move {
+      from { transform: translate(-10%, -10%) scale(1); }
+      to { transform: translate(20%, 30%) scale(1.2); }
+    }
+
+    header {
+      padding: 60px 20px 40px;
       text-align: center;
-      margin-bottom: 40px;
-      animation: fadeInUp 0.8s ease-out;
+      position: relative;
     }
 
-    .header h1 {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      background: linear-gradient(135deg, #007aff, #5856d6);
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 30%, var(--text-muted));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
+      letter-spacing: -0.02em;
     }
 
-    .header p {
-      font-size: 18px;
-      color: rgba(255, 255, 255, 0.9);
+    header p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
       max-width: 600px;
       margin: 0 auto;
-      line-height: 1.5;
+    }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px;
     }
 
     .container {
-      max-width: 1200px;
-      margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 25px;
-      padding: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 30px;
     }
 
+    /* Glassmorphic App Card */
     .app-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      animation: fadeInUp 0.8s ease-out;
-      animation-fill-mode: both;
-    }
-
-    .app-card:nth-child(1) { animation-delay: 0.1s; }
-    .app-card:nth-child(2) { animation-delay: 0.2s; }
-    .app-card:nth-child(3) { animation-delay: 0.3s; }
-    .app-card:nth-child(4) { animation-delay: 0.4s; }
-    .app-card:nth-child(5) { animation-delay: 0.5s; }
-    .app-card:nth-child(6) { animation-delay: 0.6s; }
-
-    .app-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .app-icon {
-      width: 80px;
-      height: 80px;
-      border-radius: 20px;
-      margin: 0 auto 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-    }
-
-    .app-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 20px;
-    }
-
-    .platform-badge {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 15px;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-bottom: 15px;
-      letter-spacing: 0.5px;
-    }
-
-    .platform-badge.android {
-      background: linear-gradient(135deg, #3ddc84, #2bb673);
-      color: white;
-    }
-
-    .platform-badge.ios {
-      background: linear-gradient(135deg, #007aff, #5856d6);
-      color: white;
-    }
-
-    .app-title {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: #333;
-      text-align: center;
-    }
-
-    .app-description {
-      font-size: 16px;
-      color: #666;
-      margin-bottom: 20px;
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    .app-features {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-    }
-
-    .feature-tag {
-      padding: 5px 12px;
-      background: rgba(0, 122, 255, 0.1);
-      color: #007aff;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .install-button {
-      display: block;
-      width: 100%;
-      padding: 15px 25px;
-      font-size: 16px;
-      font-weight: 600;
-      background: linear-gradient(135deg, #007aff, #5856d6);
-      color: white;
-      text-decoration: none;
-      border-radius: 50px;
-      box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
-      transition: all 0.3s ease;
-      text-align: center;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 32px;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
       position: relative;
       overflow: hidden;
-      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
-    .install-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 25px rgba(0, 122, 255, 0.4);
-    }
-
-    .install-button::before {
+    .app-card::before {
       content: '';
       position: absolute;
       top: 0;
-      left: -100%;
+      left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s;
+      background: linear-gradient(135deg, var(--glass-shine), transparent);
+      pointer-events: none;
     }
 
-    .install-button:hover::before {
-      left: 100%;
+    .app-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(99, 102, 241, 0.3);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-glow);
     }
 
-    .install-button.dev {
-      background: linear-gradient(135deg, #ff9500, #ff6b35);
-      box-shadow: 0 8px 20px rgba(255, 149, 0, 0.3);
+    .app-icon-wrapper {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 24px;
+      position: relative;
     }
 
-    .install-button.dev:hover {
-      box-shadow: 0 12px 25px rgba(255, 149, 0, 0.4);
+    .app-icon {
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      object-fit: cover;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--glass-border);
     }
 
-    .install-button.live {
-      background: linear-gradient(135deg, #34c759, #30d158);
-      box-shadow: 0 8px 20px rgba(52, 199, 89, 0.3);
+    .platform-badge {
+      align-self: center;
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
     }
 
-    .install-button.live:hover {
-      box-shadow: 0 12px 25px rgba(52, 199, 89, 0.4);
+    .platform-badge.android {
+      background: rgba(61, 220, 132, 0.15);
+      color: #3ddc84;
+      border: 1px solid rgba(61, 220, 132, 0.2);
     }
 
-    .install-button.aab {
-      background: linear-gradient(135deg, #ff6b35, #f7931e);
-      box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+    .platform-badge.ios {
+      background: rgba(0, 122, 255, 0.15);
+      color: #007aff;
+      border: 1px solid rgba(0, 122, 255, 0.2);
     }
 
-    .install-button.aab:hover {
-      box-shadow: 0 12px 25px rgba(255, 107, 53, 0.4);
-    }
-
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    .button-group .install-button {
-      flex: 1;
-      margin-bottom: 0;
-      min-width: 80px;
-    }
-
-    .note {
+    .app-title {
+      font-size: 1.5rem;
+      font-weight: 700;
       text-align: center;
-      margin-top: 30px;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.8);
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      backdrop-filter: blur(10px);
-    }
-
-    .note b {
+      margin-bottom: 8px;
       color: #fff;
-      font-weight: 600;
     }
 
-    @media (max-width: 768px) {
-      .container {
-        grid-template-columns: 1fr;
-        padding: 10px;
-      }
-      
-      .header h1 {
-        font-size: 28px;
-      }
-      
-      .header p {
-        font-size: 16px;
-      }
-      
-      .app-card {
-        padding: 25px 20px;
-      }
+    .app-description {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
 
-      .button-group {
-        flex-direction: column;
-      }
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      color: var(--text-muted);
+    }
+
+    .btn-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 10px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-dev {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+    }
+
+    .btn-live {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+    }
+
+    .btn-full {
+      grid-column: span 2;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+    }
+
+    footer {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    footer p {
+      margin-bottom: 8px;
+    }
+
+    /* Staggered Entrance */
+    .app-card {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: appear 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+
+    @keyframes appear {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 640px) {
+      header { padding-top: 40px; }
+      .container { grid-template-columns: 1fr; }
+      .btn-group { grid-template-columns: 1fr; }
+      .btn-full { grid-column: span 1; }
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>📱 Danh sách ứng dụng</h1>
-    <p>Chọn và cài đặt ứng dụng bạn muốn sử dụng</p>
+  <div class="bg-animation">
+    <div class="blob"></div>
+    <div class="blob blob-2"></div>
   </div>
 
-  <div class="container" id="appContainer"></div>
+  <header>
+    <h1>Apero Plus</h1>
+    <p>Trung tâm phát hành ứng dụng nội bộ chuẩn Platinum</p>
+  </header>
+
+  <main>
+    <div class="container" id="appContainer">
+      <!-- Loading skeleton or empty state -->
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Apero Plus Engine. All rights reserved.</p>
+    <p>Dành riêng cho mục đích kiểm thử nội bộ.</p>
+  </footer>
 
   <script>
+    const formatUrl = (url, isIOS) => {
+      if (!url) return "";
+      if (isIOS) return "itms-services://?action=download-manifest&url=" + encodeURIComponent(url);
+      return url;
+    };
+
     fetch("apps.json")
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById("appContainer");
-        
+        container.innerHTML = "";
+
         if (!data.apps || data.apps.length === 0) {
-          container.innerHTML = '<div class="note">Chưa có ứng dụng nào. Vui lòng thử lại sau.</div>';
+          container.innerHTML = '<div class="app-card" style="grid-column: 1/-1; text-align: center;">Chưa có ứng dụng nào được tải lên.</div>';
           return;
         }
 
         data.apps.forEach((app, index) => {
-          const features = (app.features || [])
-            .map(f => `<span class="feature-tag">${f}</span>`)
-            .join("");
-          
           const isIOS = (app.platform || "").toLowerCase().includes("ios");
-          const iconSrc = app.icon || "";
+          const tags = (app.features || []).map(t => `<span class="tag">${t}</span>`).join("");
           
-          const devUrl = app.downloads?.dev || "";
-          const prodUrl = app.downloads?.prod || "";
+          const devUrl = formatUrl(app.downloads?.dev, isIOS);
+          const prodUrl = formatUrl(app.downloads?.prod, isIOS);
+          const aabUrl = app.downloads?.aab || "";
+
+          const card = document.createElement("article");
+          card.className = "app-card";
+          card.style.animationDelay = `${index * 0.1}s`;
           
-          const html = `
-            <div class="app-card">
-              <div class="app-icon">
-                ${iconSrc ? `<img src="${iconSrc}" alt="${app.name || ""}" onerror="this.style.display='none'">` : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#667eea,#764ba2);"></div>'}
-              </div>
-              <span class="platform-badge ${isIOS ? 'ios' : 'android'}">${app.platform || "Android"}</span>
-              <h2 class="app-title">${app.name || ""}</h2>
-              <p class="app-description">${app.description || ""}</p>
-              ${features ? `<div class="app-features">${features}</div>` : ""}
-              <div class="button-group">
-                ${devUrl ? `<a class="install-button dev" href="${isIOS ? 'itms-services://?action=download-manifest&url=' + devUrl : devUrl}">🔧 Dev</a>` : ""}
-                ${prodUrl ? `<a class="install-button live" href="${isIOS ? 'itms-services://?action=download-manifest&url=' + prodUrl : prodUrl}">🚀 Live</a>` : ""}
-                ${app.downloads?.aab ? `<a class="install-button aab" href="${app.downloads.aab}">📦 AAB</a>` : ""}
-              </div>
+          card.innerHTML = `
+            <div class="app-icon-wrapper">
+              <img src="${app.icon || 'https://via.placeholder.com/150'}" alt="${app.name}" class="app-icon" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(app.name)}&background=6366f1&color=fff'">
+            </div>
+            
+            <span class="platform-badge ${isIOS ? 'ios' : 'android'}">${app.platform || 'Android'}</span>
+            
+            <h2 class="app-title">${app.name}</h2>
+            <p class="app-description">${app.description || ''}</p>
+            
+            <div class="tag-container">${tags}</div>
+            
+            <div class="btn-group">
+              ${devUrl ? `<a href="${devUrl}" class="btn btn-dev">🔧 Dev</a>` : ""}
+              ${prodUrl ? `<a href="${prodUrl}" class="btn btn-live">🚀 Live</a>` : ""}
+              ${aabUrl ? `<a href="${aabUrl}" class="btn btn-full">📦 Tải bộ cài AAB</a>` : ""}
             </div>
           `;
-          container.insertAdjacentHTML("beforeend", html);
+          
+          container.appendChild(card);
         });
       })
       .catch(err => {
-        const container = document.getElementById("appContainer");
-        container.innerHTML = '<div class="note"><b>❌ Lỗi:</b> Không thể tải danh sách ứng dụng. Vui lòng thử lại sau.</div>';
         console.error(err);
+        document.getElementById("appContainer").innerHTML = '<div class="app-card" style="grid-column: 1/-1; color: #ef4444;">❌ Lỗi kết nối máy chủ.</div>';
       });
   </script>
 </body>
