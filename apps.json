@@ -1,17 +1,3 @@
 {
-  "apps": [
-    {
-      "id": "aperoplus-ios",
-      "name": "Mobile App",
-      "icon": "https://raw.githubusercontent.com/user/hub/main/icon.png",
-      "platform": "iOS",
-      "description": "",
-      "features": ["OTA Install", "Platinum UI"],
-      "downloads": {
-        "dev": "https://github.com/conmangangqua/aperoplus_app/releases/download/ios_dev/AppDev.plist",
-        "prod": "https://github.com/conmangangqua/aperoplus_app/releases/download/ios_prod/AppProd.plist"
-      }
-    }
-  ]
+  "apps": []
 }
-
